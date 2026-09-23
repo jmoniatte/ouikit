@@ -1,0 +1,19 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   BASE STYLES - Layout and structure (colors come from theme)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+Screen {
+    background: $bg;
+    color: $fg;
+}
+
+ModalScreen {
+    align: center top;
+    background: $bg 80%;
+}
+
+/* Every modal opens on the same row, one below the app's name: one row, so ouie's Help fits its
+   14-row pop-up. A margin on the box, since padding on the screen paints that row solid */
+ModalScreen > Vertical {
+    margin-top: 1;
+}

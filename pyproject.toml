@@ -1,0 +1,26 @@
+[project]
+name = "ouikit"
+version = "0.1.0"
+description = "Themes, theme picker, header, messages and Help shared by the Textual apps ouie, ouifi, flotte and yafyaf-tui"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "textual>=7.2.0",
+    "rich>=14.2.0",
+    "pyyaml>=6.0",
+]
+
+[dependency-groups]
+# 0.16 turns on a much larger default rule set; adopt it deliberately, not by drift
+dev = ["ruff>=0.15.7,<0.16"]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ouikit*"]
+
+[tool.setuptools.package-data]
+ouikit = ["styles/*.tcss", "styles/themes/*.yaml"]

@@ -1,0 +1,85 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   APP HEADER
+   ═══════════════════════════════════════════════════════════════════════ */
+
+#app-header {
+    dock: top;
+    height: auto;
+    background: $bg;
+    padding: 0 1;
+    border-bottom: solid $gutter;
+}
+
+#header-spacer {
+    width: 1fr;
+}
+
+.header-notification-spacer {
+    width: 1fr;
+}
+
+#app-title {
+    width: auto;
+    text-style: bold;
+    color: $blue;
+    background: transparent;
+}
+
+#app-title:hover {
+    color: $blue;
+    text-style: bold underline;
+    background: transparent;
+}
+
+/* In the middle of the header, on one line; a message too long for it ends in "…" */
+HeaderNotification {
+    width: 40%;
+    height: 1;
+    padding: 0 1;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+}
+
+HeaderNotification.-information {
+    color: $green;
+}
+
+HeaderNotification.-warning {
+    color: $yellow;
+}
+
+/* Errors wrap onto up to three lines, since the end of an error is often the useful part */
+HeaderNotification.-error {
+    height: auto;
+    max-height: 3;
+    text-wrap: wrap;
+    color: $red;
+}
+
+/* Only seen when no screen has a header to show the message in */
+ToastRack {
+    dock: bottom;
+    align-horizontal: right;
+    margin-top: 0;
+}
+
+Toast {
+    padding: 0 1;
+    margin: 0 1 1 0;
+    width: auto;
+}
+
+Toast.-information {
+    background: $green;
+    color: auto;
+}
+
+Toast.-warning {
+    background: $yellow;
+    color: auto;
+}
+
+Toast.-error {
+    background: $red;
+    color: auto;
+}

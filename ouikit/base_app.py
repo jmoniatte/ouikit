@@ -17,11 +17,13 @@ from .theme_picker import ThemePicker
 # Apps list these in their own BINDINGS, where they should sit on the Help panel
 HELP_BINDING = Binding("question_mark", "help", "Help", key_display="?", group=GENERAL)
 THEME_BINDING = Binding("t", "show_themes", "Change theme", group=GENERAL)
+COPY_BINDING = Binding("y", "copy_selection", "Copy selection", group=GENERAL)
 
 
 class BaseApp(App):
-    """What every app shares: a base16 theme picked with t, messages shown in the header, Help, and
-    commands run through ouikit.processes stopped on quit.
+    """What every app shares: a base16 theme picked with t, messages shown in the header, Help,
+    y to copy the text selected with the mouse, and commands run through ouikit.processes stopped
+    on quit.
 
     The palette is served from get_css_variables rather than baked into CSS, so
     apply_theme can swap it without restarting.
@@ -42,6 +44,15 @@ class BaseApp(App):
     def on_unmount(self) -> None:
         # Otherwise quitting waits for a command still running in a worker thread
         processes.stop_all()
+
+    def action_copy_selection(self) -> None:
+        """Copy the text selected with the mouse, through the terminal (OSC 52)."""
+        text = self.screen.get_selected_text()
+        if not text:
+            self.notify("Nothing selected", severity="warning")
+            return
+        self.copy_to_clipboard(text)
+        self.notify("Selection copied")
 
     # -- theme
 

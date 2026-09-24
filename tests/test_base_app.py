@@ -11,7 +11,7 @@ from textual.widgets import Link, Static
 
 from ouikit import STYLE_FILES
 from ouikit.app_header import AppHeader
-from ouikit.base_app import HELP_BINDING, THEME_BINDING, BaseApp
+from ouikit.base_app import COPY_BINDING, HELP_BINDING, THEME_BINDING, BaseApp
 from ouikit.header_notification import HeaderNotification
 from ouikit.help_screen import HelpScreen
 from ouikit.shortcuts import ACTIONS
@@ -82,7 +82,7 @@ class FullApp(BaseApp):
     VERSION = "1.2.3"
     REPOSITORY_URL = "https://example.com/demo"
     HELP_BINDINGS = (ListView.BINDINGS,)
-    BINDINGS = [HELP_BINDING, THEME_BINDING, Binding("q", "quit", "Quit", group="General")]
+    BINDINGS = [HELP_BINDING, THEME_BINDING, COPY_BINDING, Binding("q", "quit", "Quit", group="General")]
 
     def compose(self) -> ComposeResult:
         yield AppHeader(Static("right side", id="extra"))
@@ -102,7 +102,7 @@ class HelpTests(unittest.TestCase):
                     await pilot.pause()
                     self.assertIsInstance(app.screen, HelpScreen)
                     keys = [key.render().plain for key in app.screen.query(".shortcut-key")]
-                    self.assertEqual(keys, ["m", "?", "t", "q"])
+                    self.assertEqual(keys, ["m", "?", "t", "y", "q"])
                     self.assertEqual(app.screen.query_one("#panel-version").render().plain, "1.2.3")
                     self.assertEqual(app.screen.query_one(Link).url, "https://example.com/demo")
 
@@ -116,6 +116,31 @@ class HelpTests(unittest.TestCase):
                     await pilot.press("escape", "t")
                     await pilot.pause()
                     self.assertEqual(app.screen.query_one("#theme-picker").region.y, 1)
+
+        asyncio.run(main())
+
+
+class CopyTests(unittest.TestCase):
+    def test_y_copies_the_selected_text_and_says_so(self):
+        async def main():
+            with tempfile.TemporaryDirectory() as tmp:
+                app = FullApp("onedark", Path(tmp) / "config.yaml")
+                async with app.run_test() as pilot:
+                    with patch.object(app, "copy_to_clipboard") as copy:
+                        await pilot.press("y")
+                        await pilot.pause()
+                        copy.assert_not_called()
+                        self.assertEqual(shown(app), "Nothing selected")
+
+                        # Drag across "right side" in the header, as a mouse would
+                        extra = app.query_one("#extra")
+                        await pilot.mouse_down(extra, offset=(0, 0))
+                        await pilot.hover(extra, offset=(4, 0))
+                        await pilot.mouse_up(extra, offset=(4, 0))
+                        await pilot.press("y")
+                        await pilot.pause()
+                        copy.assert_called_once_with("right")
+                        self.assertEqual(shown(app), "Selection copied")
 
         asyncio.run(main())
 

@@ -2,7 +2,7 @@
 
 The parts shared by the Textual apps [ouie](https://github.com/jmoniatte/ouie),
 [ouifi](https://github.com/jmoniatte/ouifi), flotte and yafyaf-tui: the base16 themes, the
-terminal's own palette, the theme picker (`t`), the header and its messages, the Help panel,
+terminal's own palette, the theme picker (`t`), copying the selected text (`y`), the header and its messages, the Help panel,
 dialogs, the startup check and the shortcut list the Help panel reads.
 
 Not published anywhere. An app pulls it from the folder next to it:

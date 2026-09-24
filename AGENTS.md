@@ -57,7 +57,8 @@ value into a theme and maybe a warning. The app also sets:
 
 - `TITLE`, `VERSION` and `REPOSITORY_URL`, shown in the header and on Help
 - `HELP_BINDINGS`: the `BINDINGS` of its widgets whose keys Help lists, before the app's own
-- `HELP_BINDING` and `THEME_BINDING` in its `BINDINGS`, where `?` and `t` should sit on Help
+- `HELP_BINDING`, `THEME_BINDING` and `COPY_BINDING` in its `BINDINGS`, where `?`, `t` and `y`
+  should sit on Help
 
 It yields `AppHeader(...)` first in `compose`, passing the widgets it wants on the right of the
 header, if any. Help opens from `?` or a click on the app's name.
@@ -103,6 +104,15 @@ rest dimmed, a thin rule across.
 An app that starts commands runs them with `processes.run` (like `subprocess.run` with captured
 text, plus an optional `input`). `BaseApp.on_unmount` calls `processes.stop_all`, so quitting
 never waits for a slow command a worker thread is still on.
+
+## Copying
+
+`y` (`COPY_BINDING`, `BaseApp.action_copy_selection`) copies the text selected with the mouse,
+which Textual tracks on every widget that renders text (`Screen.get_selected_text`), and says
+"Selection copied" in the header, or "Nothing selected". The copy goes through the terminal
+(`App.copy_to_clipboard`, OSC 52): kitty, Alacritty, WezTerm and foot take it, tmux needs
+`set -g set-clipboard on`, and VTE terminals such as GNOME Terminal ignore it. A widget that binds
+`y` itself (yafyaf-tui's list and yaf view) wins while it has focus, and a text box types the `y`.
 
 ## Messages
 

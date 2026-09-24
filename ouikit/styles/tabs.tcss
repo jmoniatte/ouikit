@@ -1,0 +1,40 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   TABS - Textual's own look: the active tab bold over a blue bar, the rest dimmed, a thin rule across
+   ═══════════════════════════════════════════════════════════════════════ */
+
+TabbedContent Tabs {
+    height: 2;
+    background: transparent;
+    margin-bottom: 1;
+}
+
+TabbedContent Tab {
+    background: transparent;
+    color: $comment;
+    padding: 0 2;
+}
+
+TabbedContent Tab.-active {
+    color: $fg;
+    text-style: bold;
+}
+
+TabbedContent Tab:hover {
+    color: $fg;
+    text-style: none;
+}
+
+TabbedContent Tab.-active:hover {
+    color: $fg;
+    text-style: bold;
+}
+
+TabbedContent Underline > .underline--bar {
+    color: $blue;
+    background: $gutter;
+}
+
+TabbedContent TabPane {
+    height: auto;
+    padding: 0;
+}

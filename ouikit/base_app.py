@@ -5,6 +5,7 @@ from textual.app import App
 from textual.binding import Binding
 from textual.notifications import Notification, SeverityLevel
 
+from . import processes
 from .app_header import HelpRequested
 from .config import save_theme
 from .header_notification import HeaderNotification
@@ -19,7 +20,8 @@ THEME_BINDING = Binding("t", "show_themes", "Change theme", group=GENERAL)
 
 
 class BaseApp(App):
-    """What every app shares: a base16 theme picked with t, messages shown in the header, and Help.
+    """What every app shares: a base16 theme picked with t, messages shown in the header, Help, and
+    commands run through ouikit.processes stopped on quit.
 
     The palette is served from get_css_variables rather than baked into CSS, so
     apply_theme can swap it without restarting.
@@ -36,6 +38,10 @@ class BaseApp(App):
         self._config_file = config_file
         self._palette = load_palette(theme_name)
         super().__init__()
+
+    def on_unmount(self) -> None:
+        # Otherwise quitting waits for a command still running in a worker thread
+        processes.stop_all()
 
     # -- theme
 

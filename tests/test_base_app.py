@@ -2,6 +2,7 @@ import asyncio
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from textual.app import ComposeResult
 from textual.binding import Binding
@@ -108,11 +109,25 @@ class HelpTests(unittest.TestCase):
                     await pilot.press("escape", "question_mark")
                     await pilot.pause()
                     self.assertIsInstance(app.screen, HelpScreen)
-                    # Every modal opens on the same row
-                    self.assertEqual(app.screen.query_one("Vertical").region.y, 1)
+                    # Every modal opens on the same row, and Help is as wide as its content, not 60
+                    panel = app.screen.query_one("Vertical")
+                    self.assertEqual(panel.region.y, 1)
+                    self.assertLess(panel.region.width, 60)
                     await pilot.press("escape", "t")
                     await pilot.pause()
                     self.assertEqual(app.screen.query_one("#theme-picker").region.y, 1)
+
+        asyncio.run(main())
+
+
+class QuitTests(unittest.TestCase):
+    def test_quitting_stops_the_commands_still_running(self):
+        async def main():
+            with tempfile.TemporaryDirectory() as tmp, patch("ouikit.base_app.processes.stop_all") as stop_all:
+                app = FullApp("onedark", Path(tmp) / "config.yaml")
+                async with app.run_test():
+                    stop_all.assert_not_called()
+            stop_all.assert_called_once()
 
         asyncio.run(main())
 

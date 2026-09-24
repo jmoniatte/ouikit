@@ -30,7 +30,9 @@ There is no pytest. `ruff` is pinned in the `dev` dependency group, so use `uv r
 ouikit/                 # git root + pyproject.toml
   ouikit/
     __init__.py         # STYLE_FILES: the stylesheets an app joins before its own
-    base_app.py         # BaseApp: the theme (t opens the picker, the choice is saved), messages in the header, Help
+    base_app.py         # BaseApp: the theme (t opens the picker, the choice is saved), messages in the header, Help,
+                        # and the commands still running stopped on quit
+    processes.py        # run() for every command an app starts, so stop_all() can kill them on quit
     app_header.py       # AppHeader: the app's name (opens Help), the messages, then the app's own widgets
     header_notification.py  # HeaderNotification: the message area in the header
     help_screen.py      # HelpScreen: the shortcuts, the version and the repository link
@@ -42,7 +44,8 @@ ouikit/                 # git root + pyproject.toml
     theme_picker.py     # The picker screen
     panel.py            # PanelScreen, the base of Help
     shortcuts.py        # Help screen contents, read off the bindings
-    styles/             # base, header, panel, modal_forms, dialogs, theme_picker .tcss; themes/*.yaml (base16 schemes)
+    styles/             # base, header, modal_forms, dialogs, panel, tabs, theme_picker .tcss (in STYLE_FILES order);
+                        # themes/*.yaml (base16 schemes)
   scripts/sync_themes.py
 ```
 
@@ -86,6 +89,20 @@ is never a surprise. Escape returns `escape`, or does nothing when the choice mu
 deliberate. `ConfirmDialog` is yes or no, with focus on the cancel button and Escape as no. An
 app builds its own dialogs on `Dialog` (yafyaf-tui's not-saved dialog does).
 `modal_forms.tcss` styles the box, title, inputs and buttons of every modal form.
+
+## Help, tabs and commands
+
+Help looks the same in every app: as wide as its two columns of shortcuts (`#shortcuts-sections`
+is `width: auto` and the footer `width: 100%` of the panel), the whole window height when needed,
+and no blank line under the title. `panel.tcss` comes after `modal_forms.tcss` in `STYLE_FILES`
+so its `width: auto` wins over every modal's `width: 60`. Apps do not resize it.
+
+`tabs.tcss` gives every `TabbedContent` the same look: the active tab bold over a blue bar, the
+rest dimmed, a thin rule across.
+
+An app that starts commands runs them with `processes.run` (like `subprocess.run` with captured
+text, plus an optional `input`). `BaseApp.on_unmount` calls `processes.stop_all`, so quitting
+never waits for a slow command a worker thread is still on.
 
 ## Messages
 

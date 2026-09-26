@@ -42,7 +42,7 @@ tui-kit/                # git root + pyproject.toml
     start.py            # start(): refuses to run without a terminal, reads its colors, runs the app
     theme.py            # base16 scheme loading, palette derivation
     terminal_theme.py   # OSC queries that read the terminal's own palette before Textual starts
-    config.py           # The theme line of an app's config.yaml: read_theme, save_theme
+    config.py           # An app's config.yaml: read_theme, and save_setting to change one key
     theme_picker.py     # The picker screen
     panel.py            # PanelScreen, the base of Help
     shortcuts.py        # Help screen contents, read off the bindings
@@ -55,7 +55,12 @@ tui-kit/                # git root + pyproject.toml
 
 The app subclasses `BaseApp` and passes the theme from its config and the config file to save
 it to: `super().__init__(config.theme, CONFIG_FILE)`. `read_theme` turns the config's `theme`
-value into a theme and maybe a warning. The app also sets:
+value into a theme and maybe a warning. `save_setting(key, value, path)` is how the theme, and
+any setting an app changes itself, is saved: it replaces only that value (found through PyYAML's
+node positions) or adds the key at the end, checks the file reads back the same but for it, and
+writes it aside then moves it over, through a link to the file it points at. When it cannot do
+that safely it leaves the file as it was and returns a warning to show; `BaseApp` shows the
+theme's. The app also sets:
 
 - `TITLE`, `VERSION` and `REPOSITORY_URL`, shown in the header and on Help
 - `HELP_BINDINGS`: the `BINDINGS` of its widgets whose keys Help lists, before the app's own

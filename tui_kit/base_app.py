@@ -7,7 +7,7 @@ from textual.notifications import Notification, SeverityLevel
 
 from . import processes
 from .app_header import HelpRequested
-from .config import save_theme
+from .config import save_setting
 from .header_notification import HeaderNotification
 from .help_screen import HelpScreen
 from .shortcuts import GENERAL
@@ -79,8 +79,11 @@ class BaseApp(App):
             return
         self.apply_theme(theme_name)
         self.theme_name = theme_name
-        save_theme(theme_name, self._config_file)
-        self.notify(f"Theme set to {theme_name}")
+        warning = save_setting("theme", theme_name, self._config_file)
+        if warning:
+            self.notify(warning, severity="warning")
+        else:
+            self.notify(f"Theme set to {theme_name}")
 
     def apply_theme(self, theme_name: str) -> None:
         """Swap the palette and repaint in place."""

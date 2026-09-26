@@ -71,6 +71,17 @@ class NotificationTests(unittest.TestCase):
 
         self._run(body, header=False)
 
+    def test_a_theme_that_cannot_be_saved_is_a_warning_and_the_config_is_left_alone(self):
+        async def body(app, pilot):
+            app._config_file.write_text("- a list\n")
+            app.set_theme("nord")
+            await pilot.pause()
+            self.assertIn("theme: not saved", shown(app))
+            self.assertTrue(app.query_one(HeaderNotification).has_class("-warning"))
+            self.assertEqual(app._config_file.read_text(), "- a list\n")
+
+        self._run(body)
+
 
 class ListView(Widget):
     BINDINGS = [Binding("m", "mute", "Mute", group=ACTIONS)]

@@ -7,10 +7,10 @@ from textual.app import ComposeResult
 from textual.containers import Vertical
 from textual.widgets import DataTable, Input, Static
 
-from ouikit import STYLE_FILES
-from ouikit.theme import load_palette
-from ouikit.theme_picker import ThemePicker
-from ouikit.base_app import THEME_BINDING, BaseApp
+from tui_kit import STYLE_FILES
+from tui_kit.theme import load_palette
+from tui_kit.theme_picker import ThemePicker
+from tui_kit.base_app import THEME_BINDING, BaseApp
 
 
 class PickerApp(BaseApp):

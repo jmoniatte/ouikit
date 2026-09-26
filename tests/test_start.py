@@ -2,7 +2,7 @@ import io
 import unittest
 from unittest.mock import MagicMock, patch
 
-from ouikit.start import start
+from tui_kit.start import start
 
 
 class StartTest(unittest.TestCase):
@@ -11,7 +11,7 @@ class StartTest(unittest.TestCase):
         with (
             patch("sys.stdin", io.StringIO()),
             patch("sys.stderr", new_callable=io.StringIO) as stderr,
-            patch("ouikit.start.query_terminal") as query,
+            patch("tui_kit.start.query_terminal") as query,
         ):
             with self.assertRaises(SystemExit) as raised:
                 start("demo", make_app)

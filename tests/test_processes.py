@@ -2,7 +2,7 @@ import threading
 import time
 import unittest
 
-from ouikit import processes
+from tui_kit import processes
 
 
 class ProcessesTest(unittest.TestCase):

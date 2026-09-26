@@ -1,9 +1,11 @@
-# ouikit
+# tui-kit
 
-The code shared by the Textual apps ouie, ouifi, flotte and yafyaf-tui, so they look the same
-and offer the same themes. It is not published: each app depends on the folder next to it
-(`[tool.uv.sources] ouikit = { path = "../ouikit", editable = true }`), so a change here reaches
-every app at once. Run an app's tests after changing something here.
+The code shared by the Textual apps outils, flotte and yafyaf-tui, so they look the same
+and offer the same themes (ouie and ouifi used it too, before they became outils' Sound and Wi-Fi
+tabs). It is not published: each app installs it from GitHub's master (`[tool.uv.sources]`,
+where `uv lock --upgrade-package tui-kit` picks up new commits), or from the folder next to it
+(`tui-kit = { path = "../tui-kit", editable = true }`) while working on both. The package is
+`tui-kit`, the import `tui_kit`. Run an app's tests after changing something here.
 
 Only code that is the same in every app belongs here. What one app does (its own widgets, its
 own stylesheets, its config fields) stays in that app.
@@ -27,8 +29,8 @@ There is no pytest. `ruff` is pinned in the `dev` dependency group, so use `uv r
 ## Structure
 
 ```
-ouikit/                 # git root + pyproject.toml
-  ouikit/
+tui-kit/                # git root + pyproject.toml
+  tui_kit/
     __init__.py         # STYLE_FILES: the stylesheets an app joins before its own
     base_app.py         # BaseApp: the theme (t opens the picker, the choice is saved), messages in the header, Help,
                         # and the commands still running stopped on quit
@@ -63,7 +65,7 @@ value into a theme and maybe a warning. The app also sets:
 It yields `AppHeader(...)` first in `compose`, passing the widgets it wants on the right of the
 header, if any. Help opens from `?` or a click on the app's name.
 
-The app joins `ouikit.STYLE_FILES` before its own stylesheets, so it changes one of ouikit's
+The app joins `tui_kit.STYLE_FILES` before its own stylesheets, so it changes one of tui-kit's
 rules by writing the same selector again in its own files.
 
 Every modal (panels, dialogs, the picker) opens on the same row: `base.tcss` gives the box
@@ -126,7 +128,7 @@ since the end of an error is often the useful part.
 
 ## Themes
 
-`ouikit/styles/themes/` holds the whole
+`tui_kit/styles/themes/` holds the whole
 [base16 catalogue](https://github.com/tinted-theming/schemes), one scheme file
 per theme, copied in unmodified - never hand-edit one. `theme.py` maps 11 of
 the 16 slots straight onto the TCSS variables the stylesheets use and derives the
@@ -162,4 +164,4 @@ palette is served from `BaseApp.get_css_variables` rather than baked into `CSS`,
 `refresh_css` repaints everything, so an app's widgets should take their colors from TCSS
 (component classes for anything drawn by hand) to follow a theme change. What an app bakes into
 Rich text instead reads `BaseApp.palette`, and the app repaints it by overriding `apply_theme`
-(ouifi's network list does).
+(outils' Wi-Fi list does).

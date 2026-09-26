@@ -2,8 +2,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from ouikit.config import read_theme, save_theme
-from ouikit.theme import default_theme
+from tui_kit.config import read_theme, save_theme
+from tui_kit.theme import default_theme
 
 
 class ReadThemeTest(unittest.TestCase):

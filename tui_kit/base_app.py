@@ -22,7 +22,7 @@ COPY_BINDING = Binding("y", "copy_selection", "Copy selection", group=GENERAL)
 
 class BaseApp(App):
     """What every app shares: a base16 theme picked with t, messages shown in the header, Help,
-    y to copy the text selected with the mouse, and commands run through ouikit.processes stopped
+    y to copy the text selected with the mouse, and commands run through tui_kit.processes stopped
     on quit.
 
     The palette is served from get_css_variables rather than baked into CSS, so

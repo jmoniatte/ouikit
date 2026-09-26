@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Refresh ouikit/styles/themes/ from the upstream base16 catalogue.
+"""Refresh tui_kit/styles/themes/ from the upstream base16 catalogue.
 
 Schemes are copied in verbatim. The only editorial rule is readability: a scheme
 whose own foreground on its own background falls below WCAG AA is skipped,
@@ -15,7 +15,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from ouikit.theme import MIN_TEXT_CONTRAST, THEMES_DIR, contrast_ratio, hex_color, read_scheme  # noqa: E402
+from tui_kit.theme import MIN_TEXT_CONTRAST, THEMES_DIR, contrast_ratio, hex_color, read_scheme  # noqa: E402
 
 LISTING = "https://api.github.com/repos/tinted-theming/schemes/contents/base16?per_page=1000"
 

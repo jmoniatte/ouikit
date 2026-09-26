@@ -4,9 +4,9 @@ import unittest
 from textual.app import App, ComposeResult
 from textual.widgets import Button, Static
 
-from ouikit import STYLE_FILES
-from ouikit.dialog import ConfirmDialog, Dialog, DialogButton
-from ouikit.theme import load_palette
+from tui_kit import STYLE_FILES
+from tui_kit.dialog import ConfirmDialog, Dialog, DialogButton
+from tui_kit.theme import load_palette
 
 
 class Host(App):

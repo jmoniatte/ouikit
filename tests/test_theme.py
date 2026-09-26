@@ -4,8 +4,8 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from ouikit import STYLE_FILES
-from ouikit.theme import (
+from tui_kit import STYLE_FILES
+from tui_kit.theme import (
     BASE16_SLOTS,
     SLOT_VARS,
     default_theme,
@@ -74,7 +74,7 @@ class DerivedSurfacesTest(unittest.TestCase):
     def _palette(self, scheme):
         with tempfile.TemporaryDirectory() as directory:
             path = _write(directory, scheme)
-            with patch("ouikit.theme.THEMES_DIR", path.parent):
+            with patch("tui_kit.theme.THEMES_DIR", path.parent):
                 return load_palette("scheme")
 
     def test_recessed_surface_is_darker_than_background_in_both_variants(self):

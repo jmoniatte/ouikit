@@ -4,14 +4,14 @@ import pty
 import threading
 import unittest
 
-from ouikit.terminal_theme import (
+from tui_kit.terminal_theme import (
     light_background,
     parse_replies,
     query_terminal,
     report_from_terminal,
     scheme_from_terminal,
 )
-from ouikit.theme import contrast_ratio, hex_color, palette_from_scheme
+from tui_kit.theme import contrast_ratio, hex_color, palette_from_scheme
 
 BG, FG = (0x28, 0x2C, 0x34), (0xAB, 0xB2, 0xBF)
 ANSI = {

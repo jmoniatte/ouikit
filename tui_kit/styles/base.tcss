@@ -12,7 +12,7 @@ ModalScreen {
     background: $bg 80%;
 }
 
-/* Every modal opens on the same row, one below the app's name: one row, so ouie's Help fits its
+/* Every modal opens on the same row, one below the app's name: one row, so Help fits a
    14-row pop-up. A margin on the box, since padding on the screen paints that row solid */
 ModalScreen > Vertical {
     margin-top: 1;

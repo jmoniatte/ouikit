@@ -1,7 +1,7 @@
 [project]
-name = "ouikit"
+name = "tui-kit"
 version = "0.1.0"
-description = "Themes, theme picker, header, messages and Help shared by the Textual apps ouie, ouifi, flotte and yafyaf-tui"
+description = "Themes, theme picker, header, messages and Help shared by the Textual apps outils, flotte and yafyaf-tui"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -20,7 +20,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["ouikit*"]
+include = ["tui_kit*"]
 
 [tool.setuptools.package-data]
-ouikit = ["styles/*.tcss", "styles/themes/*.yaml"]
+tui_kit = ["styles/*.tcss", "styles/themes/*.yaml"]

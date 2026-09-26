@@ -9,12 +9,12 @@ from textual.binding import Binding
 from textual.widget import Widget
 from textual.widgets import Link, Static
 
-from ouikit import STYLE_FILES
-from ouikit.app_header import AppHeader
-from ouikit.base_app import COPY_BINDING, HELP_BINDING, THEME_BINDING, BaseApp
-from ouikit.header_notification import HeaderNotification
-from ouikit.help_screen import HelpScreen
-from ouikit.shortcuts import ACTIONS
+from tui_kit import STYLE_FILES
+from tui_kit.app_header import AppHeader
+from tui_kit.base_app import COPY_BINDING, HELP_BINDING, THEME_BINDING, BaseApp
+from tui_kit.header_notification import HeaderNotification
+from tui_kit.help_screen import HelpScreen
+from tui_kit.shortcuts import ACTIONS
 
 
 class HeaderApp(BaseApp):
@@ -148,7 +148,7 @@ class CopyTests(unittest.TestCase):
 class QuitTests(unittest.TestCase):
     def test_quitting_stops_the_commands_still_running(self):
         async def main():
-            with tempfile.TemporaryDirectory() as tmp, patch("ouikit.base_app.processes.stop_all") as stop_all:
+            with tempfile.TemporaryDirectory() as tmp, patch("tui_kit.base_app.processes.stop_all") as stop_all:
                 app = FullApp("onedark", Path(tmp) / "config.yaml")
                 async with app.run_test():
                     stop_all.assert_not_called()
